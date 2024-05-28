@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Impresoras</title>
+    <link href="../../static/css/sb-admin-2.css" rel="stylesheet">
+
+    <link href="../../static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
+    <style>
+
+        .no-resizable {
+            resize: none;
+        }
+    </style>
+
+</head>
+<body id="page-top">
+<div id="wrapper">
+
+    <!--        Menu lateral-->
+    <div th:replace="~{componentes/barra_lateral :: barra_lateral}"></div>
+    <!--        fin de el menu de al lado-->
+
+    <!--        Inicio del contenido-->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <!--                Barra de arriba-->
+            <div th:replace="~{componentes/barra_superior :: barra_superior}"></div>
+            <!--                Fin de la Barra de arriba-->
+
+
+            <div class="container-fluid">
+                <h2 class="d-inline-block mr-3">Impresoras</h2>
+
+                <a href="/AdminObjetos/RegistrarMantenimientoImpresora" class="btn btn-dark btn-md mt-3 ml-5 mb-4 float-right">
+                    Mantenimiento
+                </a>
+
+                <a href="/impresoras/RegistrarImpresora" class="btn btn-dark btn-md mt-3 ml-5 mb-4 float-right">
+                    Registrar Impresoras
+                </a>
+
+                <a href="/AdminObjetos/HistorialMantenimientos" class="btn btn-dark btn-md mt-3 ml-5 mb-4 float-right">
+                    Mirar historial de mantenimiento
+                </a>
+                <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" action="/home/verDelitos">
+                    <div class="input-group">
+                        <input type="text" class="form-control bg-light border-0 small" placeholder="Buscar un objeto" name="nombreDelito"
+                               aria-label="Search" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fas fa-search fa-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item dropdown no-arrow d-sm-none">
+                        <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+
+                        <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                             aria-labelledby="searchDropdown">
+                            <form class="form-inline mr-auto w-100 navbar-search" action="/">
+                                -<div class="input-group">
+                                <input type="text" class="form-control bg-light border-0 small" name="nombreObjeto"
+                                       placeholder="Buscar un objeto" aria-label="Search" aria-describedby="basic-addon2">
+                                <div class="input-group-append text-black-50">
+                                    <button class="btn btn-primary text-black-50" type="submit">
+                                        <i class="fas fa-search fa-sm text-black-50"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                    </li>
+                </ul>
+
+                <table id="tabla" class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Numero de impresora</th>
+                        <th>Tipo</th>
+                        <th>Marca</th>
+                        <th>Estatus</th>
+                        <th>Fecha de ultimo mantenimiento</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="impresoras : ${impresoras}" th:object="${impresoras}" th:data-id="${impresoras.id}">
+                            <td th:text="*{numImpresora}"></td>
+                            <td th:text="*{tipo}"></td>
+                            <td th:text="*{marca}"></td>
+                            <td th:text="*{estatus}" style="max-width: 200px; overflow-wrap: break-word;"></td>
+                            <td th:text="*{fechaMantenimiento}"></td>
+                            <td class="d-none" th:text="*{fechaRegistro}"></td>
+                            <td>
+                                <a class="btn btn-info btn-sm mr-1 details" data-toggle="modal" data-target="#detailsObjectModal">
+                                    Detalles
+                                </a>
+                                <a class="btn btn-primary btn-sm mr-1 edit" data-toggle="modal" data-target="#editObjectModal">
+                                    Editar
+                                </a>
+                                <a class="btn btn-danger btn-sm  eliminar" data-toggle="modal" data-target="#deleteObjectModal">
+                                    Eliminar
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="detailsObjectModal" class="modal fade" tabindex="-1" aria-labelledby="detailsLabel"  aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="detailsLabel">Detalles de objetos</h4>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <p class="form-label">Numero de impresora</p>
+                        <p id="numImpresora" class="form-control form-control-user"></p>
+                    </div>
+                    <div class="col-sm-6">
+                        <p class="form-label">Tipo</p>
+                        <p id="tipo" class="form-control form-control-user" ></p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <p class="form-label">Marca</p>
+                        <p id="marca" class="form-control form-control-user" ></p>
+
+                    </div>
+                    <div class="col-sm-6">
+                        <p class="form-label">Estatus</p>
+                        <p id="estatus" class="form-control form-control-user"></p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-12 mb-3 mb-sm-0">
+                        <p class="form-label">Fecha de registro</p>
+                        <p id="fechaR" class="form-control form-control-user no-resizable heigth-large" ></p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-12 mb-3 mb-sm-0">
+                        <p class="form-label">Fecha de ultimo mantenimiento</p>
+                        <p id="fechaM" class="form-control form-control-user no-resizable heigth-large" ></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-sm-2 float-right" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="editObjectModal" class="modal fade" tabindex="-1" aria-labelledby="editLabel"  aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="editLabel">Editar objeto</h4>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+
+            <div class="modal-body">
+                <!-- Formulario -->
+                <form id="editObject" action="/impresoras/EditarImpresora" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="id" th:value="${session.usuario.id}">
+                    <input type="hidden" name="idObjeto" id="idObjectE" value="">
+                    <div class="form-group row">
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <label for="numImpresora" class="form-label">Numero de impresora</label>
+                            <input type="number" readonly name="numImpresora" id="numImpresora" class="form-control form-control-user" placeholder="Numero">
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="tipo" class="form-label">Tipo</label>
+                            <select  id="tipo" name="tipo" class="form-control form-control-user" placeholder="Tipo">
+                                <option value="Filamento">Filamento</option>
+                                <option value="Resina"   >Resina</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <label for="marca" class="form-label">Marca</label>
+                            <input type="text" name="marca" id="marca" class="form-control form-control-user" placeholder="Marca"
+
+                                   min="1"
+                                   maxlength="30"
+                                   title="Maximo 30 caracteres">
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="estatus" class="form-label">Estado</label>
+                            <select id="estatus" name="estatus" class="custom-select">
+                                <option value="Activa">Activa</option>
+                                <option value="Inactiva">Inactiva</option>
+                                <option value="Mantenimiento">Mantenimiento</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12 mb-3 mb-sm-0">
+                            <label for="notas" class="form-label">Notas</label>
+                            <textarea name="notas" id="notas"  class="form-control form-control-user no-resizable heigth-large" placeholder="Notas" rows="6"
+                                      maxlength="200"
+                                      title="Maximo 200 caracteres"
+                            ></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-dark btn-sm-2 float-right">Editar filamento</button>
+                        <button type="button" class="btn btn-danger btn-sm-2 float-right" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="deleteObjectModal" class="modal fade" tabindex="-1" aria-labelledby="eliminarLabel"  aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="eliminarLabel">Eliminar objeto</h4>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <form id="deleteObject" action="/impresoras/EliminarImpresora" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="id" th:value="${session.usuario.id}">
+                    <input type="hidden" name="idObjeto" id="idObjectD" value="Hello">
+
+                    <div class="container">
+                        <div class="row">
+                            <p>¿Esta seguro de eliminar este objeto?</p>
+                        </div>
+                        <p id="nombreObjetoD"></p>
+                        <p class="text-warning"><small>Esta accion no se puede deshacer.</small></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-dark btn-sm-2 float-right">Elimiar objeto</button>
+                        <button type="button" class="btn btn-danger btn-sm-2 float-right" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var lastClickedCollapse = null;
+
+        document.addEventListener("click", function (event) {
+            var target = event.target;
+            var collapsethree = document.getElementById("collapsethree");
+            var collapsethreeChild = document.getElementById("collapsethreeChild");
+            var collapsethreeChildReg = document.getElementById("collapsethreeChildReg");
+            var isCollapsethreeOpen = collapsethree.classList.contains("show");
+            var isCollapsethreeChildOpen = collapsethreeChild.classList.contains("show");
+            var isCollapsethreeChildRegOpen = collapsethreeChildReg.classList.contains("show");
+            var isTargetInsideCollapsethree = collapsethree.contains(target);
+            var isTargetInsideCollapsethreeChild = collapsethreeChild.contains(target);
+            var isTargetInsideCollapsethreeChildReg = collapsethreeChildReg.contains(target);
+
+            if (isCollapsethreeChildRegOpen && !isTargetInsideCollapsethreeChildReg) {
+                // Cierra el tercer collapse
+                $("#collapsethreeChildReg").collapse("hide");
+                lastClickedCollapse = collapsethreeChildReg;
+            } else if (isCollapsethreeChildOpen && !isTargetInsideCollapsethreeChild) {
+                // Cierra el segundo collapse
+                $("#collapsethreeChild").collapse("hide");
+                lastClickedCollapse = collapsethreeChild;
+            } else if (isCollapsethreeOpen && !isTargetInsideCollapsethree) {
+                // Cierra el primer collapse
+                $("#collapsethree").collapse("hide");
+                lastClickedCollapse = collapsethree;
+            } else if (lastClickedCollapse) {
+                // Cierra el último collapse abierto si se hace clic fuera de todos
+                $(lastClickedCollapse).collapse("hide");
+                lastClickedCollapse = null;
+            }
+        });
+    });
+
+</script>
+
+<!-- Bootstrap core JavaScript-->
+<script src="../../static/vendor/jquery/jquery.min.js"></script>
+<script src="../../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="../../static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="../../static/js/sb-admin-2.min.js"></script>
+
+<!-- Page level plugins -->
+<script src="../../static/vendor/chart.js/Chart.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="../../static/js/demo/chart-area-demo.js"></script>
+<script src="../../static/js/demo/chart-pie-demo.js"></script>
+<script src="../../static/js/modales_impresora.js"></script>
+
+
+</body>
+</html>

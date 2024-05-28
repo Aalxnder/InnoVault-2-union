@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Actualizaciones</title>
+
+    <link href="../static/css/sb-admin-2.css" rel="stylesheet">
+
+    <link href="../static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link href="../static/vendor/fontawesome.com/icons/user?f=classic&s=solid" rel="stylesheet">
+
+</head>
+<body id="page-top">
+<div id="wrapper">
+    <!--        Menu lateral-->
+    <div th:replace="~{componentes/barra_lateral :: barra_lateral}"></div>
+    <!--        fin de el menu de al lado-->
+
+    <!--        Inicio del contenido-->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+
+            <!--                Barra de arriba-->
+            <div th:replace="~{componentes/barra_superior :: barra_superior}"></div>
+            <!--                Fin de la Barra de arriba-->
+
+            <div class="container-fluid">
+                <h2 class="text-center mb-3">Objetos actualizados</h2>
+                <table id="tabla" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Objeto</th>
+                            <th>Tipo</th>
+                            <th>idUsuario</th>
+                            <th>Notas</th>
+                            <th>Fecha Actualización</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="objetoActualizado : ${objetoActualizado}" th:object="${objetoActualizado}" th:data-id="${objetoActualizado.id}">
+                            <td th:text="*{objeto}"></td>
+                            <td th:text="*{tipo}"></td>
+                            <td th:text="*{idUsuario}"></td>
+                            <td th:text="*{notas}" style="max-width: 200px; overflow-wrap: break-word;"></td>
+                            <td th:text="*{#dates.format(fechaActualizacion, 'yyyy-MM-dd')}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!--    codigo para ocultar las ventanas desplegables al hacer click fuera de ellas-->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var lastClickedCollapse = null;
+
+        document.addEventListener("click", function (event) {
+            var target = event.target;
+            var collapsethree = document.getElementById("collapsethree");
+            var collapsethreeChild = document.getElementById("collapsethreeChild");
+            var collapsethreeChildReg = document.getElementById("collapsethreeChildReg");
+            var isCollapsethreeOpen = collapsethree.classList.contains("show");
+            var isCollapsethreeChildOpen = collapsethreeChild.classList.contains("show");
+            var isCollapsethreeChildRegOpen = collapsethreeChildReg.classList.contains("show");
+            var isTargetInsideCollapsethree = collapsethree.contains(target);
+            var isTargetInsideCollapsethreeChild = collapsethreeChild.contains(target);
+            var isTargetInsideCollapsethreeChildReg = collapsethreeChildReg.contains(target);
+
+            if (isCollapsethreeChildRegOpen && !isTargetInsideCollapsethreeChildReg) {
+                // Cierra el tercer collapse
+                $("#collapsethreeChildReg").collapse("hide");
+                lastClickedCollapse = collapsethreeChildReg;
+            } else if (isCollapsethreeChildOpen && !isTargetInsideCollapsethreeChild) {
+                // Cierra el segundo collapse
+                $("#collapsethreeChild").collapse("hide");
+                lastClickedCollapse = collapsethreeChild;
+            } else if (isCollapsethreeOpen && !isTargetInsideCollapsethree) {
+                // Cierra el primer collapse
+                $("#collapsethree").collapse("hide");
+                lastClickedCollapse = collapsethree;
+            } else if (lastClickedCollapse) {
+                // Cierra el último collapse abierto si se hace clic fuera de todos
+                $(lastClickedCollapse).collapse("hide");
+                lastClickedCollapse = null;
+            }
+        });
+    });
+
+</script>
+
+<!-- Bootstrap core JavaScript-->
+<script src="../static/vendor/jquery/jquery.min.js"></script>
+<script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="../static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="../static/js/sb-admin-2.min.js"></script>
+
+<!-- Page level plugins -->
+<script src="../static/vendor/chart.js/Chart.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="../static/js/demo/chart-area-demo.js"></script>
+<script src="../static/js/demo/chart-pie-demo.js"></script>
+
+
+</body>
+</html>

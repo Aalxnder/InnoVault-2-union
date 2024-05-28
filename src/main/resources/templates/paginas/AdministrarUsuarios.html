@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Administración de Usuarios</title>
+
+    <link href="../static/css/sb-admin-2.css" rel="stylesheet">
+
+    <link href="../static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link href="../static/vendor/fontawesome.com/icons/user?f=classic&s=solid" rel="stylesheet">
+
+</head>
+<body id="page-top">
+<div id="wrapper">
+    <!--        Menu lateral-->
+    <div th:replace="~{componentes/barra_lateral :: barra_lateral}"></div>
+    <!--        fin de el menu de al lado-->
+
+    <!--        Inicio del contenido-->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+
+            <!--                Barra de arriba-->
+            <div th:replace="~{componentes/barra_superior :: barra_superior}"></div>
+            <!--                Fin de la Barra de arriba-->
+            <div class="container-fluid">
+                <table id="tablaFilamento" class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Codigo</th>
+                        <th>Correo</th>
+                        <th>Permisos</th>
+                        <th>Telefono</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="usuarios : ${usuarios}" th:object="${usuarios}" th:data-id="${usuarios.id}">
+                        <td th:text="*{nombre} + ' ' + *{apellidoP} + ' ' + *{apellidoM}"></td>
+                        <td th:text="*{codigoUniversitario}"></td>
+                        <td th:text="*{correo}"></td>
+                        <td th:text="*{permisos}"></td>
+                        <td th:text="*{telefono}"></td>
+                        <td class="d-none R" th:text="*{fechaRegistro}"></td>
+                        <td>
+                            <a class="btn btn-info btn-sm mr-1 details" data-toggle="modal" data-target="#detailsObjectModal">
+                                Detalles
+                            </a>
+                            <a class="btn btn-primary btn-sm mr-1 edit" data-toggle="modal" data-target="#editObjectModal">
+                                Editar
+                            </a>
+                            <a class="btn btn-danger btn-sm  eliminar" data-toggle="modal" data-target="#deleteObjectModal">
+                                Eliminar
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div id="detailsObjectModal" class="modal fade" tabindex="-1" aria-labelledby="detailsLabel"  aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="detailsLabel">Detalles de usuario</h4>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <p class="form-label">Nombre</p>
+                        <p id="nombre" class="form-control form-control-user w-auto"></p>
+                    </div>
+                    <div class="col-sm-6">
+                        <p class="form-label">Codigo</p>
+                        <p id="codigo" class="form-control form-control-user" ></p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-12 mb-3 mb-sm-0">
+                        <p class="form-label">Correo</p>
+                        <p id="correo" class="form-control form-control-user" ></p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <p class="form-label">Permisos</p>
+                        <p id="permisos" class="form-control form-control-user"></p>
+                    </div>
+                    <div class="col-sm-6">
+                        <p class="form-label">Telefono</p>
+                        <p id="telefono" class="form-control form-control-user"></p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-12 mb-3 mb-sm-0">
+                        <p class="form-label">Fecha de registro</p>
+                        <p id="fechaR" class="form-control form-control-user no-resizable heigth-large" ></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-sm-2 float-right" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="editObjectModal" class="modal fade" tabindex="-1" aria-labelledby="editLabel"  aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="editLabel">Editar usuario</h4>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+
+            <div class="modal-body">
+                <!-- Formulario -->
+                <form id="editObject" action="/usuarios/EditarUsuario" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="id" th:value="${session.usuario.id}">
+                    <input type="hidden" name="idObjeto" id="idObjectE" value="">
+                    <div class="form-group row">
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input readonly type="text" name="nombre" id="nombre" class="form-control form-control-user" placeholder="Nombre">
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="codigo" class="form-label">Codigo</label>
+                            <input readonly type="text" name="codigo" id="codigo" class="form-control form-control-user">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12 mb-3 mb-sm-0">
+                            <label for="codigo" class="form-label">Correo</label>
+                            <input readonly type="email" name="correo" id="correo" class="form-control form-control-user">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <label for="permisos" class="form-label">Permisos</label>
+                            <select class="form-control form-control-user" id="permisos" name="permisos">
+                                <option value="Administrador">Administrador</option>
+                                <option value="Normal">Normal</option>
+                                <option value="Jefazo">Jefazo</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-dark btn-sm-2 float-right">Editar usuario</button>
+                        <button type="button" class="btn btn-danger btn-sm-2 float-right" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="deleteObjectModal" class="modal fade" tabindex="-1" aria-labelledby="eliminarLabel"  aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="eliminarLabel">Eliminar usuario</h4>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <form id="deleteObject" action="/usuarios/BorrarUsuario" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="id" th:value="${session.usuario.id}">
+                    <input type="hidden" name="idObjeto" id="idObjectD" value="Hello">
+
+                    <div class="container">
+                        <div class="row">
+                            <p>¿Esta seguro de eliminar este objeto?</p>
+                        </div>
+                        <p id="nombreObjetoD"></p>
+                        <p class="text-warning"><small>Esta accion no se puede deshacer.</small></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-dark btn-sm-2 float-right">Eliminar usuario</button>
+                        <button type="button" class="btn btn-danger btn-sm-2 float-right" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--    codigo para ocultar las ventanas desplegables al hacer click fuera de ellas-->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var lastClickedCollapse = null;
+
+        document.addEventListener("click", function (event) {
+            var target = event.target;
+            var collapsethree = document.getElementById("collapsethree");
+            var collapsethreeChild = document.getElementById("collapsethreeChild");
+            var collapsethreeChildReg = document.getElementById("collapsethreeChildReg");
+            var isCollapsethreeOpen = collapsethree.classList.contains("show");
+            var isCollapsethreeChildOpen = collapsethreeChild.classList.contains("show");
+            var isCollapsethreeChildRegOpen = collapsethreeChildReg.classList.contains("show");
+            var isTargetInsideCollapsethree = collapsethree.contains(target);
+            var isTargetInsideCollapsethreeChild = collapsethreeChild.contains(target);
+            var isTargetInsideCollapsethreeChildReg = collapsethreeChildReg.contains(target);
+
+            if (isCollapsethreeChildRegOpen && !isTargetInsideCollapsethreeChildReg) {
+                // Cierra el tercer collapse
+                $("#collapsethreeChildReg").collapse("hide");
+                lastClickedCollapse = collapsethreeChildReg;
+            } else if (isCollapsethreeChildOpen && !isTargetInsideCollapsethreeChild) {
+                // Cierra el segundo collapse
+                $("#collapsethreeChild").collapse("hide");
+                lastClickedCollapse = collapsethreeChild;
+            } else if (isCollapsethreeOpen && !isTargetInsideCollapsethree) {
+                // Cierra el primer collapse
+                $("#collapsethree").collapse("hide");
+                lastClickedCollapse = collapsethree;
+            } else if (lastClickedCollapse) {
+                // Cierra el último collapse abierto si se hace clic fuera de todos
+                $(lastClickedCollapse).collapse("hide");
+                lastClickedCollapse = null;
+            }
+        });
+    });
+
+</script>
+
+<!-- Bootstrap core JavaScript-->
+<script src="../static/vendor/jquery/jquery.min.js"></script>
+<script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="../static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="../static/js/sb-admin-2.min.js"></script>
+
+<!-- Page level plugins -->
+<script src="../static/vendor/chart.js/Chart.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="../static/js/demo/chart-area-demo.js"></script>
+<script src="../static/js/demo/chart-pie-demo.js"></script>
+
+<script src="../static/js/modales_users.js"></script>
+</body>
+</html>

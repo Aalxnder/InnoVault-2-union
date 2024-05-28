@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro</title>
+    <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
+
+    <link href="/static/css/sb-admin-2.min.css" rel="stylesheet">
+    <style>
+        .SelectLogin {
+            font-size: 0.8rem;
+            border-radius: 10rem;
+            height: 3rem;
+        }
+    </style>
+
+</head>
+
+<body class="bg-gradient-light">
+    <div class="container">
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <div class="row">
+                    <div class="col-lg-5 d-none d-lg-block">
+                        <img src="/static/img/iNVENTORES_LOGO.png" alt="" width="100%" height="100%">
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4">Crea una cuenta!</h1>
+                            </div>
+                            <form action="/sesion/Registrar" class="user" method="post" th:object="${usuario}">
+                                <div class="form-group row">
+                                    <div class="col-sm-4 mb-3 mb-sm-0">
+                                        <input type="text" class="form-control form-control-user" id="Nombre" name="nombre" th:field="*{nombre}"
+                                               pattern="[A-Za-záéíóúñ\s]{2,30}"
+                                               title="Minimo 2 y maximo 30 caracteres"
+                                               placeholder="Nombre:" required>
+                                    </div>
+                                    <div class="col-sm-4 mb-3 mb-sm-0">
+                                        <input type="text" class="form-control form-control-user" id="ApellidoP" name="apellidoP" th:field="*{apellidoP}"
+                                               pattern="[A-Za-záéíóúñ\s]{2,30}"
+                                               title="Minimo 2 y maximo 30 caracteres"
+                                               placeholder="Apellido Paterno:"
+                                               required>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control form-control-user" id="ApellidoM" name="apellidoM" th:field="*{apellidoM}"
+                                               placeholder="Apellido Materno:"
+                                               pattern="[A-Za-záéíóúñ\s]{2,30}"
+                                               title="Minimo 2 y maximo 30 caracteres"
+                                               required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="email" class="form-control form-control-user" id="Email" name="correo" th:field="*{correo}"
+                                               placeholder="Email:"
+                                               required>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control form-control-user" id="Codigo" name="codigo" th:field="*{codigoUniversitario}"
+                                               placeholder="Codigo:"
+                                               pattern="[\d]{9}"
+                                               title="El código debe tener 9 dígitos numéricos"
+                                               required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="text" class="form-control form-control-user" id="Numero" name="numero" th:field="*{telefono}"
+                                               pattern="^(([\d]{3})\s?([\d]{3})|([\d]{2})\s?([\d]{4}))\s?([\d]{4})$"
+                                               title="El número de teléfono debe tener un formato válido"
+                                               placeholder="Numero de telefono" required>
+                                    </div>
+                                    <div class="form-floating col-sm-6 mb-3 mb-sm-0">
+                                        <select id="selectTipoUsuario" class="form-control SelectLogin"  name="tipo" th:field="*{permisos}" required>
+                                            <option value="" selected>Seleccione una opción</option>
+                                            <option value="normal" th:selected="${permisos == 'normal'}">Normal</option>
+                                            <option value="admin" th:selected="${permisos == 'admin'}">Administrador</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="password" class="form-control form-control-user"  id="txtContra" name="contr" th:field="*{contrasenia}"
+                                               placeholder="Contraseña"
+                                               required>
+                                    </div>
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="password" class="form-control form-control-user" id="txtRepeatContra"
+                                               placeholder=" Repetir la Contraseña">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-light btn-user btn-block">Crear cuenta</button>
+
+                            </form>
+                            <hr>
+                            <div class="text-center">
+                                <a href="/sesion/Login" class="small">Ya tienes una cuenta? ¡inicia sesion!</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+</html>

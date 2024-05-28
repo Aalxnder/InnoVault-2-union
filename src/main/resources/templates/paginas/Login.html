@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+</head>
+
+<body class="bg-gradient-light">
+<section class="vh-100 gradient-custom">
+    <div class="container py-3 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-5 d-none d-lg-block">
+                <img src="/static/img/iNVENTORES_LOGO.png" alt="" width="100%" height="100%">
+            </div>
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                <div class="card bg-white text-black">
+                    <div class="card-body p-2 text-center">
+                        <div class="mb-md-1 mt-md-4 pb-3">
+                            <h2 class="fw-bold mb-1 text-uppercase">Login</h2>
+                            <p class="text-white-50 mb-5"></p>
+
+                            <form action="Loguear" method="post">
+                                <div class="form-outline form-white mb-4">
+                                    <label class="form-label" for="txtEmail">Correo</label>
+                                    <input type="email" id="txtEmail" class="form-control form-control-lg" name="correo"/>
+                                </div>
+
+                                <div class="form-outline form-white mb-4">
+                                    <label class="form-label" for="txtContra">Contraseña</label>
+                                    <input type="password" id="txtContra" class="form-control form-control-lg" name="contrasenia"/>
+                                </div>
+                                <p class="small mb-3 pb-lg-2"><a class="text-black-50" href="/sesion/Rest">¿Olvidaste tu contraseña?</a></p>
+                                <button class="btn btn-dark btn-lg px-5" type="submit">Iniciar </button>
+                            </form>
+                        </div>
+
+                        <div>
+                            <p class="mt-2">¿No tienes cuenta?  <a href="Registro" class="text-black-50 fw-bold">Registrate aqui :D</a>
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

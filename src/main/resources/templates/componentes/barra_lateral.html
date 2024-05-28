@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+    <link href="https://fontawesome.com/icons/user?f=classic&s=solid"  rel="stylesheet">
+    <meta charset="UTF-8">
+<head>
+</head>
+<body>
+<!--        Menu lateral-->
+<ul th:fragment="barra_lateral" class="navbar-nav bg-gradient-light sidebar sidebar-dark accordion" id="accordionSidebar">
+
+    <a class = "sidebar-brand d-flex align-items-center justify-content-center" href="/">
+        <div>
+            <img src="/static/img/iNVENTORES_LOGO.png" class="img-fluid">
+        </div>
+        <div class = "sidebar-brand-text mx-3 text-black-50"> Inicio</div>
+    </a>
+    <!--            Divisor-->
+    <hr class="sidebar-divider my-0 text-black-50">
+
+    <hr class="sidebar-divider text-black-50">
+
+    <div class="sidebar-heading text-black-50">
+        Opciones
+    </div>
+
+    <!--            Collapse menu-->
+
+    <li class="nav-item has-submenu">
+        <a class="nav-link collapsed" data-toggle="collapse" data-target="#collapseTwo" href=""
+           aria-expanded="false" aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-eye text-black-50"></i>
+            <span class="text-black-50">Mirar Objetos</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded submenu">
+                <h6 class="collapse-header text-black-50">Bitacora:</h6>
+                <a class="collapse-item text-black-50" href="/paginas/Actualizaciones">Actualizaciones</a>
+                <a class="collapse-item text-black-50" href="/paginas/Eliminaciones">Eliminaciones</a>
+            </div>
+        </div>
+    </li>
+
+
+    <li class="nav-item has-submenu">
+        <a class="nav-link collapsed" data-toggle="collapse" data-target="#collapsethree" href=""
+           aria-expanded="false" aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-wrench text-black-50"></i>
+            <span class="text-black-50">Opciones de objetos</span>
+        </a>
+        <div id="collapse-three" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded submenu">
+                <h6 class="collapse-header">Administrar objetos:</h6>
+                <a class="collapse-item text-black-50" href="/Usuario/MisObjetos">Consultar Objetos</a>
+                <a class="collapse-item text-black-50" href="/paginas/AdministrarObjetos">Administrar Objetos</a>
+            </div>
+        </div>
+    </li>
+    <li class="nav-item has-submenu">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+           aria-expanded="false" aria-controls="collapsePages">
+            <i class="fa-regular fa-user text-black-50  "></i>
+            <span class="text-black-50">Usuarios</span>
+        </a>
+        <div id="collapse" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded submenu">
+                <h6 class = "collapse-header text-black-50">Usuarios:</h6>
+                <a class="collapse-item text-black-50" href="/usuarios/AdministrarUsuarios">Administrar usuarios</a>
+            </div>
+        </div>
+    </li>
+    <hr class="sidebar-divider text-black-50">
+
+    <div class="sidebar-heading text-black-50">
+        Opciones de inicio de sesion
+    </div>
+
+    <li class="nav-item has-submenu">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+           aria-expanded="false" aria-controls="collapsePages">
+            <i class="fas fa-fw fa-folder text-black-50"></i>
+            <span class="text-black-50">Paginas</span>
+        </a>
+        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded submenu">
+                <h6 class = "collapse-header text-black-50">pantallas de inicio:</h6>
+                <a class="collapse-item text-black-50" href="/sesion/Login">Login</a>
+                <a class="collapse-item text-black-50" href="/sesion/Registro">Registro</a>
+                <a class="collapse-item text-black-50" href="/sesion/Rest">Olvido contraseña</a>
+                <div class="collapse-divider"></div>
+                <h6 class="collapse-header text-black-50">Otras paginas</h6>
+                <a class="collapse-item text-black-50" href="#">Sobre nosotros</a>
+                <a class="collapse-item text-black-50" href="#">Contactanos</a>
+
+            </div>
+        </div>
+    </li>
+
+
+
+
+    <div class="text-center">
+        <button class="rounded-circle" id="sidebarToggle"></button>
+    </div>
+
+
+</ul>
+<!--        fin de el menu de al lado-->
+
+</body>
+
+
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar filamento</title>
+    <link href="../../static/css/sb-admin-2.css" rel="stylesheet">
+
+    <link href="../../static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
+    <style>
+        .no-resizable {
+            resize: none;
+        }
+    </style>
+
+</head>
+<body id="page-top">
+<div id="wrapper">
+
+    <!--        Menu lateral-->
+    <div th:replace="~{componentes/barra_lateral :: barra_lateral}"></div>
+    <!--        fin de el menu de al lado-->
+
+    <!--        Inicio del contenido-->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <!--                Barra de arriba-->
+            <div th:replace="~{componentes/barra_superior :: barra_superior}"></div>
+
+
+
+            <div class="container-fluid">
+                <h2> Añadir filamento</h2>
+                <br>
+                <form action="" method="post" th:object="${filamento}"
+                      enctype="multipart/form-data">
+                    <div class="form-group row">
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <label for="nombreObjeto" class="form-label">Nombre</label>
+                            <input th:field="*{nombre}" type="text" id="nombreObjeto" class="form-control form-control-user"
+                                   maxlength="50"
+                                   title="Maximo 50 caracteres"
+                                   placeholder="Nombre"
+                                   required>
+
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="TipoFilamento" class="form-label">Tipo de filamento</label>
+                            <select id="TipoFilamento" name="TipoFilamento" class="form-control" th:field="*{tipoDeFilamento}" required>
+                                <option selected value="">Seleccionar tipo</option>
+                                <option value="PLA" th:selected="${tipoDeFilamento == 'PLA'}">PLA</option>
+                                <option value="PETG" th:selected="${tipoDeFilamento == 'PETG'}">PETG</option>
+                                <option value="PC" th:selected="${tipoDeFilamento == 'PC'}">PC</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <label for="CantidadFilamento" class="form-label">Cantidad de filamento en gramos (gr.)</label>
+                            <input th:field="*{cantidad}" type="number" id="CantidadFilamento" class="form-control form-control-user"
+                                   min="1" maxlength="2000"
+                                   title="Maximo 2000 gramos"
+                                   placeholder="Cantidad"
+                                   required>
+
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="ColorFilamento" class="form-label">Color</label>
+                            <input th:field="*{color}" type="text" id="ColorFilamento" class="form-control form-control-user"
+                                   maxlength="20"
+                                   title="Maximo 20 caracteres"
+                                   placeholder="Color"
+                                   required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12 mb-3 mb-sm-0">
+                            <label for="notas" class="form-label">Notas</label>
+                            <textarea th:field="*{notas}" id="notas" class="form-control form-control-user no-resizable heigth-large"
+                                      maxlength="200"
+                                      title="Maximo 200 caracteres"
+                                      placeholder="Notas" rows="6"></textarea>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-dark btn-sm-2">Registrar filamento</button>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+</script>
+<!-- Bootstrap core JavaScript-->
+<script src="../../static/vendor/jquery/jquery.min.js"></script>
+<script src="../../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="../../static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="../../static/js/sb-admin-2.min.js"></script>
+
+<!-- Page level plugins -->
+<script src="../../static/vendor/chart.js/Chart.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="../../static/js/demo/chart-area-demo.js"></script>
+<script src="../../static/js/demo/chart-pie-demo.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mis objetos</title>
+
+    <link href="../static/css/sb-admin-2.css" rel="stylesheet">
+
+    <link href="../static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
+
+</head>
+<body id="page-top">
+<div id="wrapper">
+    <!--        Menu lateral-->
+    <div th:replace="~{componentes/barra_lateral :: barra_lateral}"></div>
+    <!--        fin de el menu de al lado-->
+
+    <!--        Inicio del contenido-->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+
+            <!--                Barra de arriba-->
+            <div th:replace="~{componentes/barra_superior :: barra_superior}"></div>
+            <!--                Fin de la Barra de arriba-->
+            <div class="container-fluid">
+                <h2 class="d-inline-block mb-3 text-center">Objetos registrados por ti</h2>
+                <br>
+                <h3 id="textFilamento" class="d-inline-block mb-2">Filamentos</h3>
+                <button class="btn btn-dark btn-sm-2 float-right" id="toggleButton">Mostrar Varios</button>
+
+                <br>
+                <table id="tablaFilamento" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Tipo</th>
+                            <th>Cantidad (gr)</th>
+                            <th>Color</th>
+                            <th>Notas</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="filamento : ${filamentos}" th:object="${filamento}" th:data-id="${filamento.id}">
+                            <td th:text="*{nombre}"></td>
+                            <td th:text="*{tipoDeFilamento}"></td>
+                            <td th:text="*{cantidad}"></td>
+                            <td th:text="*{color}"></td>
+                            <td th:text="*{notas}" style="max-width: 200px; overflow-wrap: break-word;"></td>
+                            <td class="d-none R" th:text="*{fechaRegistro}"></td>
+                            <td class="d-none E" th:text="*{fechaEdicion}"></td>
+                            <td>
+                                <a class="btn btn-info btn-sm mr-1 details" data-toggle="modal" data-target="#detailsObjectModal">
+                                    Detalles
+                                </a>
+                                <a class="btn btn-primary btn-sm mr-1 edit" data-toggle="modal" data-target="#editObjectModal">
+                                    Editar
+                                </a>
+                                <a class="btn btn-danger btn-sm  eliminar" data-toggle="modal" data-target="#deleteObjectModal">
+                                    Eliminar
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <h3 id="textVarios" class="d-inline-block mb-3" style="display: none;">Objetos varios</h3>
+                <br>
+                <table id="tablaVarios" class="table table-hover" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Cantidad (pz)</th>
+                            <th>Categoria</th>
+                            <th>Fecha de Registro</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="varios : ${varios}" th:object="${varios}" th:data-id="${varios.id}">
+                            <td th:text="*{nombre}"></td>
+                            <td th:text="*{cantidad}"></td>
+                            <td th:text="*{categoria}"></td>
+                            <td th:text="*{fechaRegistro}"></td>
+                            <td class="d-none R" th:text="*{fechaRegistro}"></td>
+                            <td class="d-none E" th:text="*{fechaEdicion}"></td>
+                            <td>
+                                <a class="btn btn-info btn-sm mr-1 details" data-toggle="modal" data-target="#detailsObjectModal">
+                                    Detalles
+                                </a>
+                                <a class="btn btn-primary btn-sm mr-1 edit" data-toggle="modal" data-target="#editObjectModal">
+                                    Editar
+                                </a>
+                                <a class="btn btn-danger btn-sm  eliminar" data-toggle="modal" data-target="#deleteObjectModal">
+                                    Eliminar
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="detailsObjectModal" class="modal fade" tabindex="-1" aria-labelledby="detailsLabel"  aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="detailsLabel">Detalles de objetos</h4>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <p class="form-label">Nombre</p>
+                        <p id="nombreMisObjetoDs" class="form-control form-control-user"></p>
+                    </div>
+                    <div class="col-sm-6">
+                        <p class="form-label">Tipo</p>
+                        <p id="TipoMisFilamentoDs" class="form-control form-control-user" ></p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <p class="form-label">Cantidad (gr)</p>
+                        <p id="CantidadMisFilamentoDs" class="form-control form-control-user" ></p>
+
+                    </div>
+                    <div class="col-sm-6">
+                        <p class="form-label">Color</p>
+                        <p id="ColorMisFilamentoDs" class="form-control form-control-user"></p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-12 mb-3 mb-sm-0">
+                        <p class="form-label">Fecha de registro</p>
+                        <p id="fechaMisRs" class="form-control form-control-user no-resizable heigth-large" ></p>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-12 mb-3 mb-sm-0">
+                        <p class="form-label">Notas</p>
+                        <textarea id="notasMisDs" class="form-control form-control-user" style="resize: none;" disabled rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-12 mb-3 mb-sm-0">
+                        <p class="form-label">Fecha de edición</p>
+                        <p id="fechaMisDs" class="form-control form-control-user no-resizable heigth-large" ></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-sm-2 float-right" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="editObjectModal" class="modal fade" tabindex="-1" aria-labelledby="editLabel"  aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="editLabel">Editar objeto</h4>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+
+            <div class="modal-body">
+                <!-- Formulario -->
+                <form id="editObject" action="/filamentos/EditarObjeto" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="id" th:value="${session.usuario.id}">
+                    <input type="hidden" name="idObjeto" id="idObjectE" value="">
+                    <div class="form-group row">
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <label for="nombreObjeto" class="form-label">Nombre</label>
+                            <input type="text" name="nombreObjeto" id="nombreObjetoE" class="form-control form-control-user" placeholder="Nombre">
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="TipoFilamento" class="form-label">Tipo</label>
+                            <input type="text" name="TipoFilamento" id="TipoFilamentoE" class="form-control form-control-user" placeholder="Tipo:">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <label for="CantidadFilamento" class="form-label">Cantidad</label>
+                            <input type="number" name="CantidadFilamento" id="CantidadFilamentoE" class="form-control form-control-user" placeholder="Cantidad">
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="ColorFilamento" class="form-label">Color</label>
+                            <input type="text" name="ColorFilamento" id="ColorFilamentoE" class="form-control form-control-user" placeholder="color:">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12 mb-3 mb-sm-0">
+                            <label for="notas" class="form-label">Notas</label>
+                            <textarea name="notas" id="notasE"  class="form-control form-control-user no-resizable heigth-large" placeholder="Notas" rows="6" ></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-dark btn-sm-2 float-right">Editar filamento</button>
+                        <button type="button" class="btn btn-danger btn-sm-2 float-right" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="deleteObjectModal" class="modal fade" tabindex="-1" aria-labelledby="eliminarLabel"  aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="eliminarLabel">Eliminar objeto</h4>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <form id="deleteObject" action="/filamentos/EliminarObjeto" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="id" th:value="${session.usuario.id}">
+                    <input type="hidden" name="idObjeto" id="idObjectD" value="Hello">
+
+                    <div class="container">
+                        <div class="row">
+                            <p>¿Esta seguro de eliminar este objeto?</p>
+                        </div>
+                        <p id="nombreObjetoD"></p>
+                        <p class="text-warning"><small>Esta accion no se puede deshacer.</small></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-dark btn-sm-2 float-right">Eliminar filamento</button>
+                        <button type="button" class="btn btn-danger btn-sm-2 float-right" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggleButton = document.getElementById('toggleButton');
+        const tablaFilamento = document.getElementById('tablaFilamento');
+        const tablaVarios = document.getElementById('tablaVarios');
+        const textVarios = document.getElementById('textVarios');
+        const textFilamento = document.getElementById('textFilamento');
+
+        let mostrandoFilamento = true;
+
+        function toggleTablas() {
+            if (mostrandoFilamento)
+            {
+                tablaFilamento.style.display = 'none';
+                textFilamento.style.display = 'none';
+                tablaVarios.style.display = 'table';
+                textVarios.style.display = 'inline-block'; // Mostrar el título "Objetos varios"
+                toggleButton.textContent = 'Mostrar Filamentos';
+            }
+            else
+            {
+                tablaFilamento.style.display = 'table';
+                textVarios.style.display = 'none';
+                tablaVarios.style.display = 'none';
+                textFilamento.style.display = 'inline-block'; // Mostrar el título "Filamentos"
+                toggleButton.textContent = 'Mostrar Varios';
+            }
+            mostrandoFilamento = !mostrandoFilamento;
+        }
+
+        toggleButton.addEventListener('click', toggleTablas);
+    });
+
+</script>
+
+<!-- Bootstrap core JavaScript-->
+<script src="../static/vendor/jquery/jquery.min.js"></script>
+<script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="../static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="../static/js/sb-admin-2.min.js"></script>
+
+<!-- Page level plugins -->
+<script src="../static/vendor/chart.js/Chart.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="../static/js/demo/chart-area-demo.js"></script>
+<script src="../static/js/demo/chart-pie-demo.js"></script>
+<script src="../static/js/ModalesMisFilamentos.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil de Usuario</title>
+
+    <link href="../static/css/sb-admin-2.css" rel="stylesheet">
+
+    <link href="../static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link href="../static/vendor/fontawesome.com/icons/user?f=classic&s=solid" rel="stylesheet">
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body id="page-top">
+
+<div id="wrapper">
+    <div th:replace="~{componentes/barra_lateral :: barra_lateral}"></div>
+
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+
+            <div th:replace="~{componentes/barra_superior :: barra_superior}"></div>
+
+            <div class="container-fluid ">
+
+
+
+                            <div class="text-center mb-3">
+                                <h2>Perfil de Usuario</h2>
+                            </div>
+                            <div class="card-body text-center">
+                                <form action="" method="post" enctype="multipart/form-data">
+                                    <img class="profile-img mx-auto" id="myimg" th:if="${session.imagenBase64 != null}" th:src="@{'data:image/jpeg;base64,' + ${session.imagenBase64}}">
+
+
+                                    <div class="form-group mt-3">
+                                        <input type="file" class="text-right" id="fotoPerfil" name="fotoPerfil" accept="image/png, image/jpg, image/jpeg">
+                                        <input type="hidden" th:value="${session.usuario.correo}" name="correo" id="correo">
+                                        <button type="submit" class="btn btn-secondary">Guardar Foto de Perfil</button>
+                                    </div>
+                                </form>
+
+                                <div class="mt-5 profile-info">
+                                    <h2 class="font-medium">
+                                        <span th:text="${session.usuario.nombre + ' ' + session.usuario.apellidoP + ' ' + session.usuario.apellidoM}"></span>
+                                    </h2>
+
+                                    <div class="d-flex flex-center mt-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon-large mr-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <line x1="21" y1="6" x2="3" y2="6"></line>
+                                            <line x1="15" y1="12" x2="3" y2="12"></line>
+                                            <line x1="17" y1="18" x2="3" y2="18"></line>
+                                        </svg>
+                                        <span class="text-large" th:text="${session.usuario.codigoUniversitario}"></span>
+                                    </div>
+                                    <div class="d-flex flex-center mt-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon-large mr-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                                            <path d="M9 12l2 2 4-4"></path>
+                                        </svg>
+                                        <span class="text-large" th:text="${session.usuario.permisos}"></span>
+                                    </div>
+                                    <form id="telefonoForm" action="/Usuario/CambiarTelefono" method="post" enctype="multipart/form-data">
+                                        <input type="hidden" th:value="${session.usuario.correo}" name="correo" id="correo">
+                                        <div class="form-group">
+                                            <div class="d-flex flex-center mt-3">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon-large mr-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.42 19.42 0 0 1-6-6 19.86 19.86 0 0 1-3.07-8.63A2 2 0 0 1 4.09 2h3a2 2 0 0 1 2 1.72c.13 1.21.36 2.39.69 3.53a2 2 0 0 1-.45 2.11l-1.27 1.27a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c1.14.33 2.32.56 3.53.69a2 2 0 0 1 1.72 2z"></path>
+                                                </svg>
+                                                <span id="telefonoSpan" class="text-large mr-2" th:text="${session.usuario.telefono}"></span>
+                                                <input type="text" class="form-control d-none mr-2 input-telefono" id="telefonoInput" name="telefono" th:value="${session.usuario.telefono}">
+                                                <button type="button" id="editarBtn" class="btn btn-secondary mr-2">Editar</button>
+                                                <button type="submit" id="guardarBtn" class="btn btn-secondary d-none">Guardar Cambios</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <div class="d-flex flex-center mt-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon-large mr-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                            <polyline points="22,6 12,13 2,6"></polyline>
+                                        </svg>
+                                        <span class="text-large" th:text="${session.usuario.correo}"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const image = document.getElementById('myimg');
+    const input = document.getElementById('fotoPerfil');
+
+    input.addEventListener("change", () => {
+        image.src = URL.createObjectURL(input.files[0]);
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const telefonoSpan = document.getElementById('telefonoSpan');
+        const telefonoInput = document.getElementById('telefonoInput');
+        const editarBtn = document.getElementById('editarBtn');
+        const guardarBtn = document.getElementById('guardarBtn');
+
+        editarBtn.addEventListener('click', function() {
+            telefonoInput.classList.toggle('d-none');
+            telefonoSpan.classList.toggle('d-none');
+            guardarBtn.classList.toggle('d-none');
+            if (!telefonoInput.classList.contains('d-none')) {
+                telefonoInput.value = telefonoSpan.innerText;
+            }
+        });
+    });
+</script>
+
+<!-- Incluye los scripts de Bootstrap y jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script src="../static/vendor/jquery/jquery.min.js"></script>
+<script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="../static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="../static/js/sb-admin-2.min.js"></script>
+
+<!-- Page level plugins -->
+<script src="../static/vendor/chart.js/Chart.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="../static/js/demo/chart-area-demo.js"></script>
+<script src="../static/js/demo/chart-pie-demo.js"></script>
+
+</body>
+</html>
+
+

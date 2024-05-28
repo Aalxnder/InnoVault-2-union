@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Objetos</title>
+    <link href="../../static/css/sb-admin-2.css" rel="stylesheet">
+
+    <link href="../../static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
+    <style>
+
+        .no-resizable {
+            resize: none;
+        }
+    </style>
+
+</head>
+<body id="page-top">
+<div id="wrapper">
+
+    <!--        Menu lateral-->
+    <div th:replace="~{componentes/barra_lateral :: barra_lateral}"></div>
+    <!--        fin de el menu de al lado-->
+
+    <!--        Inicio del contenido-->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <!--                Barra de arriba-->
+            <div th:replace="~{componentes/barra_superior :: barra_superior}"></div>
+            <!--                Fin de la Barra de arriba-->
+
+
+
+            <div class="container-fluid">
+                <h2 class="d-inline-block mr-3">Objetos varios</h2>
+                <a href="/varios/RegistrarVarios" class="btn btn-dark btn-md mt-3 ml-5 mb-4">
+                    Registrar varios
+                </a>
+                <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" action="/home/verDelitos">
+                    <div class="input-group">
+                        <input type="text" class="form-control bg-light border-0 small" placeholder="Buscar un objeto" name="nombreDelito"
+                               aria-label="Search" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fas fa-search fa-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item dropdown no-arrow d-sm-none">
+                        <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+
+                        <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                             aria-labelledby="searchDropdown">
+                            <form class="form-inline mr-auto w-100 navbar-search" action="/">
+                                -<div class="input-group">
+                                <input type="text" class="form-control bg-light border-0 small" name="nombreObjeto"
+                                       placeholder="Buscar un objeto" aria-label="Search" aria-describedby="basic-addon2">
+                                <div class="input-group-append text-black-50">
+                                    <button class="btn btn-primary text-black-50" type="submit">
+                                        <i class="fas fa-search fa-sm text-black-50"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                    </li>
+                </ul>
+                <br>
+                <table id="tabla" class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Tipo</th>
+                        <th>Cantidad</th>
+                        <th>Color</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="Miscelanea : ${Miscelanea}" th:object="${Miscelanea}" th:data-id="${Miscelanea.id}">
+                            <td th:text="*{nombre}"></td>
+                            <td th:text="*{cantidad}"></td>
+                            <td th:text="*{categoria}"></td>
+                            <td th:text="*{descripcion}" style="max-width: 200px; overflow-wrap: break-word;"></td>
+                            <td class="d-none R" th:text="*{fechaRegistro}"></td>
+                            <td class="d-none E" th:text="*{fechaEdicion}"></td>
+                            <td>
+                                <a class="btn btn-info btn-sm mr-1 details" data-toggle="modal" data-target="#detailsObjectModal">
+                                    Detalles
+                                </a>
+                                <a class="btn btn-primary btn-sm mr-1 edit" data-toggle="modal" data-target="#editObjectModal">
+                                    Editar
+                                </a>
+                                <a class="btn btn-danger btn-sm  eliminar" data-toggle="modal" data-target="#deleteObjectModal">
+                                    Eliminar
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+<div id="detailsObjectModal" class="modal fade" tabindex="-1" aria-labelledby="detailsLabel"  aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="detailsLabel">Detalles de objetos</h4>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <p class="form-label">Nombre</p>
+                        <p id="nombre" class="form-control form-control-user"></p>
+                    </div>
+                    <div class="col-sm-6">
+                        <p class="form-label">Cantidad</p>
+                        <p id="cantidad" class="form-control form-control-user" ></p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <p class="form-label">Categoria</p>
+                        <p id="categoria" class="form-control form-control-user" ></p>
+
+                    </div>
+                    <div class="col-sm-6">
+                        <p class="form-label">Fecha de registro</p>
+                        <p id="fechaR" class="form-control form-control-user"></p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-12 mb-3 mb-sm-0">
+                        <p class="form-label">Descripcion</p>
+                        <textarea id="descripcion" class="form-control form-control-user" style="resize: none;" disabled rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-12 mb-3 mb-sm-0">
+                        <p class="form-label">Fecha de edición</p>
+                        <p id="fechaE" class="form-control form-control-user no-resizable heigth-large" ></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-sm-2 float-right" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="editObjectModal" class="modal fade" tabindex="-1" aria-labelledby="editLabel"  aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="editLabel">Editar objeto</h4>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+
+            <div class="modal-body">
+                <!-- Formulario -->
+                <form id="editObject" action="/varios/EditarVarios" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="id" th:value="${session.usuario.id}">
+                    <input type="hidden" name="idObjeto" id="idObjectE" value="">
+                    <div class="form-group row">
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <label for="nombre" class="form-label">Nombre del objeto</label>
+                            <input type="text" name="nombre" id="nombre" class="form-control form-control-user" placeholder="Nombre"
+                                   maxlength="50"
+                                   title="Maximo 50 caracteres"
+                                   required>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="cantidad" class="form-label">Cantidad</label>
+                            <input type="number" name="cantidad" id="cantidad" class="form-control form-control-user"
+                                   min="1" max="500"
+                                   title="Minimo 1, maximo 500"
+                                   required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6 mb-3 mb-sm-0">
+                            <label for="categoria" class="form-label">Categoria</label>
+                            <input type="text" name="categoria" id="categoria" class="form-control form-control-user" placeholder="Categoria"
+                                   maxlength="30"
+                                   title="Maximo 30 carácteres"
+                                   required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12 mb-3 mb-sm-0">
+                            <label for="descripcion" class="form-label">Descripción</label>
+                            <textarea name="descripcion" id="descripcion"  class="form-control form-control-user no-resizable heigth-large" placeholder="Descripción" rows="2"
+                                      maxlength="200"
+                                      title="Maximo 200 carácteres"
+                                      required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-dark btn-sm-2 float-right">Editar objeto</button>
+                        <button type="button" class="btn btn-danger btn-sm-2 float-right" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="deleteObjectModal" class="modal fade" tabindex="-1" aria-labelledby="eliminarLabel"  aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="eliminarLabel">Eliminar objeto</h4>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <form id="deleteObject" action="/varios/EliminarVarios" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="id" th:value="${session.usuario.id}">
+                    <input type="hidden" name="idObjeto" id="idObjectD" value="Hello">
+
+                    <div class="container">
+                        <div class="row">
+                            <p>¿Esta seguro de eliminar este objeto?</p>
+                        </div>
+                        <p id="nombreObjetoD"></p>
+                        <p class="text-warning"><small>Esta accion no se puede deshacer.</small></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-dark btn-sm-2 float-right">Elimiar objeto</button>
+                        <button type="button" class="btn btn-danger btn-sm-2 float-right" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var lastClickedCollapse = null;
+
+        document.addEventListener("click", function (event) {
+            var target = event.target;
+            var collapsethree = document.getElementById("collapsethree");
+            var collapsethreeChild = document.getElementById("collapsethreeChild");
+            var collapsethreeChildReg = document.getElementById("collapsethreeChildReg");
+            var isCollapsethreeOpen = collapsethree.classList.contains("show");
+            var isCollapsethreeChildOpen = collapsethreeChild.classList.contains("show");
+            var isCollapsethreeChildRegOpen = collapsethreeChildReg.classList.contains("show");
+            var isTargetInsideCollapsethree = collapsethree.contains(target);
+            var isTargetInsideCollapsethreeChild = collapsethreeChild.contains(target);
+            var isTargetInsideCollapsethreeChildReg = collapsethreeChildReg.contains(target);
+
+            if (isCollapsethreeChildRegOpen && !isTargetInsideCollapsethreeChildReg) {
+                // Cierra el tercer collapse
+                $("#collapsethreeChildReg").collapse("hide");
+                lastClickedCollapse = collapsethreeChildReg;
+            } else if (isCollapsethreeChildOpen && !isTargetInsideCollapsethreeChild) {
+                // Cierra el segundo collapse
+                $("#collapsethreeChild").collapse("hide");
+                lastClickedCollapse = collapsethreeChild;
+            } else if (isCollapsethreeOpen && !isTargetInsideCollapsethree) {
+                // Cierra el primer collapse
+                $("#collapsethree").collapse("hide");
+                lastClickedCollapse = collapsethree;
+            } else if (lastClickedCollapse) {
+                // Cierra el último collapse abierto si se hace clic fuera de todos
+                $(lastClickedCollapse).collapse("hide");
+                lastClickedCollapse = null;
+            }
+        });
+    });
+
+</script>
+
+<!-- Bootstrap core JavaScript-->
+<script src="../../static/vendor/jquery/jquery.min.js"></script>
+<script src="../../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="../../static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="../../static/js/sb-admin-2.min.js"></script>
+
+<!-- Page level plugins -->
+<script src="../../static/vendor/chart.js/Chart.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="../../static/js/demo/chart-area-demo.js"></script>
+<script src="../../static/js/demo/chart-pie-demo.js"></script>
+<script src="../../static/js/modales_varios.js"></script>
+
+
+</body>
+</html>
